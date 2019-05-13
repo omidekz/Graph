@@ -1,3 +1,4 @@
+package Graph_DS;
 
 import java.util.ArrayList;
 
@@ -5,7 +6,7 @@ public class Graph<T> {
     private static final short DEFAULT_WEIGHT = 1;
 
     private ArrayList<Node<T>> nodes;
-    Graph(){
+    public Graph(){
         nodes = new ArrayList<>();
     }
 
@@ -16,25 +17,44 @@ public class Graph<T> {
         throw new Exceptions(Exceptions.NOT_FOUND + id);
     }
 
-    void addNode(String id,T data){
+    public void addNode(String[] ids,T[] datas){
+      if(ids.length != datas.length)
+        throw new Exceptions("_IDS_ length != _Datas_");
+      for(int i = 0 ; i < ids.length;i++){
+        addNode(ids[i],datas[i]);
+      }
+    }
+    public void addNode(String id,T data){
         addNode(new Node<>(data,id));
     }
-    void addNode(Node<T> node){
+    public void addNode(Node<T> node){
         node.setIndex(nodes.size());
         nodes.add(node);
     }
 
-    void addAdj(Node<T> f,Node<T> t,float w){
+    public void addAdj(String[] ids,float[] weights){
+        if(ids.length-1 != weights.length)
+            throw new Exceptions("_IDS_ length != weights length");
+        for (int i = 1; i <weights.length ; i++) {
+            addAdj(ids[0],ids[i],weights[i-1]);
+        }
+    }
+    public void addAdj(String... ids){
+        for (int i = 1; i < ids.length; i++) {
+            addAdj(ids[0],ids[i]);
+        }
+    }
+    public void addAdj(Node<T> f,Node<T> t,float w){
         f.addAdj(t,w);
         t.addAdj(f,w);
     }
-    void addAdj(Node<T> f,Node<T> t){
+    public void addAdj(Node<T> f,Node<T> t){
         addAdj(f,t,DEFAULT_WEIGHT);
     }
-    void addAdj(String f,String t){
+    public void addAdj(String f,String t){
         addAdj(f,t,DEFAULT_WEIGHT);
     }
-    void addAdj(String f,String t,float w){
+    public void addAdj(String f,String t,float w){
         Node<T> from;
         Node<T> to;
         boolean ff = false;
@@ -60,10 +80,10 @@ public class Graph<T> {
         throw new Exceptions(Exceptions.NOT_FOUND + id);
     }
 
-    int indexOf(Node<T> node){
+    public int indexOf(Node<T> node){
         return node.getIndex();
     }
-    int indexOf(String id){
+    public int indexOf(String id){
         return find(id).getIndex();
     }
 
@@ -77,7 +97,7 @@ public class Graph<T> {
         }
     }
 
-    void remove(String id){
+    public void remove(String id){
         remove(find(id));
     }
 
@@ -88,23 +108,23 @@ public class Graph<T> {
         }
         System.out.println("\b]");
     }
-    void print(){
+    public void print(){
         for (int i = 0; i < nodes.size(); i++) {
             print(nodes.get(i));
         }
     }
 
-    Node<T> getNode(String id){
+    public Node<T> getNode(String id){
         return find(id);
     }
 
-    void clearMark(){
+    public void clearMark(){
         for (Node<T> node : nodes) {
             node.unmark();
         }
     }
 
-    int vertex(){
+    public int vertex(){
         return nodes.size();
     }
 
@@ -114,6 +134,4 @@ public class Graph<T> {
     ArrayList<Node.Adj<T>> adjs(String id){
         return find(id).getAdjectives();
     }
-
-
 }

@@ -1,3 +1,4 @@
+package Graph_DS;
 
 import java.util.ArrayList;
 
@@ -6,7 +7,7 @@ public class Node<T> {
         private Node<T> dest;
         private float w;
 
-        Adj(Node<T> s,float weight){
+        public Adj(Node<T> s,float weight){
             dest = s;
             w = weight;
         }
@@ -65,16 +66,16 @@ public class Node<T> {
         this.index = index;
     }
 
-    void mark(){
+    public void mark(){
         setMark(true);
     }
-    void unmark(){
+    public void unmark(){
         setMark(false);
     }
-    void setMark(boolean m){
+    public void setMark(boolean m){
         mark = m;
     }
-    boolean isMark(){
+    public boolean isMark(){
         return mark;
     }
 

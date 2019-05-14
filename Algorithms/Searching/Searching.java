@@ -1,7 +1,7 @@
 package Algorithms.Searching;
 
 import Graph_DS.Exceptions;
-import Graph_DS.Graph;
+import Graph_DS.UnDirectedGraph;
 import Graph_DS.Node;
 import Graph_DS.Queue;
 
@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Searching {
     public static void main(String[] args) {
-        Graph<Integer> graph = new Graph<>();
+        UnDirectedGraph<Integer> graph = new UnDirectedGraph<>();
         //  uniq number is gt 0 and l vertexs => uniq number -> un ==> 0<=un<vertexs
         // A un = 0 B un = 1 C un = 2 and...
         graph.addNode(new String[]{"A","B","C","D","E","F","G","H"},new Integer[]{1,1,1,1,1,1,1,1});
@@ -38,10 +38,12 @@ public class Searching {
         System.out.println("Shortest path between A to D");
         System.out.println(getPath(graph.getNode("D"),dis));
 
+        System.out.println(numberOfPartitions(graph));
+
 
     }
 
-    private static void DFS(Graph<Integer> graph,String srcID){
+    private static void DFS(UnDirectedGraph<Integer> graph, String srcID){
         DFS(graph.getNode(srcID));
         System.out.println();
         graph.clearMark();
@@ -59,7 +61,7 @@ public class Searching {
     /**
      * dis is true when all weight be equal
      * */
-    private static int[] BFS(Graph<Integer> graph,String srcID){
+    private static int[] BFS(UnDirectedGraph<Integer> graph, String srcID){
         Queue<Node<Integer>> queue = new Queue<>();
         Node<Integer> node = graph.getNode(srcID);
         node.mark();
@@ -94,6 +96,14 @@ public class Searching {
                 return getPath(tmp,distances)+" "+node.getId();
         }
         throw new Exceptions("There is no with by this distances ");
+    }
+
+    private static int numberOfPartitions(UnDirectedGraph<Integer> graph){
+        if(!graph.containUnMarkNode())
+            return 0;
+        DFS(graph.getUnMarkNode());
+        System.out.println();
+        return numberOfPartitions(graph)+1;
     }
 
 }

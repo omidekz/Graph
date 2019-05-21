@@ -1,4 +1,3 @@
-#Hello
 *   you can use of [DirectedGraph\<T>](Graph_DS/DirectedGraph.java) and [UnDirectedGraph\<T>](Graph_DS/UnDirectedGraph.java)
 ```java
     public class Test_Directed{

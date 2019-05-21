@@ -4,12 +4,27 @@ import java.util.ArrayList;
 
 public abstract class Graph<T> {
     protected static final short DEFAULT_WEIGHT = 1;
+
+    /**
+     * this arrayList keep the nodes
+     * */
     protected ArrayList<Node<T>> nodes;
 
+    /**
+     * add node
+     * @param node
+     * */
     public void addNode(Node<T> node){
         node.setIndex(nodes.size());
         nodes.add(node);
     }
+    /**
+     * @param ids,ds
+     * we have a String[] ids and T[] datas
+     * ids.len == datas.len
+     * for i = 1 to n
+     *      add node (new node(ids[i],datas[i]))
+     * */
     public void addNode(String[] ids,T[] ds){
         if(ids.length != ds.length)
             throw new Exceptions(Exceptions.BAD_LENGTH);
@@ -17,6 +32,9 @@ public abstract class Graph<T> {
             addNode(new Node<>(ds[i],ids[i]));
         }
     }
+    /**
+     * we add new node with id and data
+     * */
     public void addNode(String id,T d){
         addNode(new Node<>(d,id));
     }
@@ -33,7 +51,7 @@ public abstract class Graph<T> {
     public void addAdj(String[] ids,float[] weights){
         if(ids.length-1 != weights.length)
             throw new Exceptions("_IDS_ length != weights length");
-        for (int i = 1; i <weights.length ; i++) {
+        for (int i = 1; i <ids.length ; i++) {
             addAdj(ids[0],ids[i],weights[i-1]);
         }
     }
@@ -78,6 +96,11 @@ public abstract class Graph<T> {
                 return i;
         }
         throw new Exceptions(Exceptions.NOT_FOUND + id);
+    }
+    public Node<T> getNode(int index){
+        if(index >= 0 && index < nodes.size())
+            return nodes.get(index);
+        throw new Exceptions("You pass a bad index("+index+")");
     }
 
     public int vertex(){
